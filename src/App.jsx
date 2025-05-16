@@ -9,30 +9,41 @@ import { doc, getDoc, setDoc, updateDoc, deleteDoc} from "firebase/firestore";
 const counterRef = doc(db, "counters", "main");
 
 export function Counter() {
-  const [count, setCount] = useState(null);
+  const [count, setCount] = useState(null); //create count and setCount, start as null
 
   useEffect(() => {
     const makeCounter = async () => {
-      const snap = await getDoc(counterRef);
-      if (snap.exists()) setCount(snap.data().value);
-      else setCount(0);
+      const snap = await getDoc(counterRef); //get the count stored in databae
+      
+      if (snap.exists()) //if it does exist
+      {
+        setCount(snap.data().value); //set the count to what it was stored as
+      } 
+
+      else 
+      {
+        setCount(0); //else, its 0 (probably deleted)
+      }
     };
     makeCounter();
   }, []);
 
   const createCounter = async () => {
-    await setDoc(counterRef, { value: 0 });
-    setCount(0);
+    await setDoc(counterRef, { value: 0 }); //when creating, database stores the counter at 0
+    
+    setCount(0); //set count to 0
   };
 
   const incrementer = async () => {
-    await updateDoc(counterRef, { value : count + 1 });
-    setCount(count + 1);
+    
+    await updateDoc(counterRef, { value : count + 1 }); //update the database to be count+1
+    setCount(count + 1); //increment
   };
 
   const deleter = async () => {
-    await deleteDoc(counterRef);
-    setCount(null);
+    await deleteDoc(counterRef); //if press delete, delete the data
+    
+    setCount(null); //set the count back to null
   };
 
   return (
