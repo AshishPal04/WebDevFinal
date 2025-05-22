@@ -15,7 +15,7 @@ export function Counter() {
     const makeCounter = async () => {
       const snap = await getDoc(counterRef); //get the count stored in databae
       
-      if (snap.exists()) //if it does exist
+      if (snap.exists()) //if it does exist.
       {
         setCount(snap.data().value); //set the count to what it was stored as
       } 
